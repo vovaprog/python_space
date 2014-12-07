@@ -68,55 +68,56 @@ z_all = distance_all * np.sin(glat)
 
 #================================= Galaxies near Milky Way ======================================
 
-distance_filter = distance_all < 1.0
+def show_galaxies_near_milky_way():
+    distance_filter = distance_all < 1.0
 
-distance = distance_all[distance_filter]
-x = x_all[distance_filter]
-y = y_all[distance_filter]
-z = z_all[distance_filter]
-names = names_all[distance_filter]
+    distance = distance_all[distance_filter]
+    x = x_all[distance_filter]
+    y = y_all[distance_filter]
+    z = z_all[distance_filter]
+    names = names_all[distance_filter]
 
-distance_lyr = megaparsec_to_lightyear(distance)
-
-
-ax = plt.subplot(111, projection='3d')
-
-#radius = 50 000 lyr
-ax.plot((0,), (0,), (0,), 'o', color='cyan', markersize=15, label='milky way')
+    distance_lyr = megaparsec_to_lightyear(distance)
 
 
-ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
+    ax = plt.subplot(111, projection='3d')
 
-for i in range(0, x.size):
-    if names[i] == 'NGC0224':
-        marker_size = 20  # radius = 110 000 lyr
-        galaxy_name = 'Andromeda glx'
-        marker = 'o'
-    elif names[i] == 'NGC0598':
-        marker_size = 10  # radius = 25000-30000 lyr
-        galaxy_name = 'Triangulum glx'
-        marker = 'o'
-    else:
-        marker_size = 5
-        galaxy_name = names[i]
-        marker = mlines.Line2D.filled_markers[i % 8]
+    #radius = 50 000 lyr
+    ax.plot((0,), (0,), (0,), 'o', color='cyan', markersize=15, label='milky way')
 
-    ax.plot([x[i]], [y[i]], [z[i]], '.', label=galaxy_name + ' (' + '{0:,.0f}'.format(distance_lyr[i]) + 'ly)',
-            markersize=marker_size, marker=marker)
 
-#ax.legend(fontsize=11)
+    ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
 
-ax.legend()
+    for i in range(0, x.size):
+        if names[i] == 'NGC0224':
+            marker_size = 20  # radius = 110 000 lyr
+            galaxy_name = 'Andromeda glx'
+            marker = 'o'
+        elif names[i] == 'NGC0598':
+            marker_size = 10  # radius = 25000-30000 lyr
+            galaxy_name = 'Triangulum glx'
+            marker = 'o'
+        else:
+            marker_size = 5
+            galaxy_name = names[i]
+            marker = mlines.Line2D.filled_markers[i % 8]
 
-ax.set_xlabel('Mpc')
-ax.set_ylabel('Mpc')
-ax.set_zlabel('Mpc')
+        ax.plot([x[i]], [y[i]], [z[i]], '.', label=galaxy_name + ' (' + '{0:,.0f}'.format(distance_lyr[i]) + 'ly)',
+                markersize=marker_size, marker=marker)
 
-ax.view_init(elev=10, azim=-25)
+    #ax.legend(fontsize=11)
 
-plt.figure(1).tight_layout(pad=0)
+    ax.legend()
 
-show_maximized_plot('local galactic group')
+    ax.set_xlabel('Mpc')
+    ax.set_ylabel('Mpc')
+    ax.set_zlabel('Mpc')
+
+    ax.view_init(elev=10, azim=-25)
+
+    plt.figure(1).tight_layout(pad=0)
+
+    show_maximized_plot('local galactic group')
 
 
 #=================================== big map ====================================================
@@ -135,6 +136,9 @@ def show_galaxies(distance_limit):
 
     ax.scatter(x, y, z, c=vel, cmap=plt.cm.jet)  # gnuplot bwr
 
+    #ax.view_init(elev=1, azim=1)
+    ax.view_init(elev=20, azim=-120)
+
     ax.set_xlabel('Mpc')
     ax.set_ylabel('Mpc')
     ax.set_zlabel('Mpc')
@@ -142,6 +146,8 @@ def show_galaxies(distance_limit):
     show_maximized_plot('galaxies ' + str(distance_limit) + ' Mpc')
 
 #================================================================================================
+
+show_galaxies_near_milky_way()
 
 show_galaxies(10)
 show_galaxies(25)
