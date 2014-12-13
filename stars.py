@@ -6,7 +6,7 @@ import matplotlib.lines as mlines
 
 import numpy.lib.recfunctions as rfn
 
-from matplotlib.patches import Circle, PathPatch
+from matplotlib.patches import Circle, Arc
 from mpl_toolkits.mplot3d import Axes3D 
 import mpl_toolkits.mplot3d.art3d as art3d
 
@@ -114,7 +114,7 @@ if use_catalog == v53a:
 
 	data = np.sort(data, order=['vmag'])
 
-	data = data[0:29]
+	#data = data[0:29]
 
 	dt=data
 
@@ -160,8 +160,8 @@ elif use_catalog== hipparcus:
 
 	print data[data["parallax"]==0]
 
-	dt = dt[dt["parallax"]!=0] 
-	dt = dt[0:99]
+	dt = dt[dt["parallax"]!=0]
+	#dt = dt[0:99]
 
 #	rfn.append_fields(dt, "dist", dtypes='S20')
 	dt = add_field(dt, [('dist', float)])
@@ -205,7 +205,7 @@ elif use_catalog==yale:
 #	print data[data["parallax"]==0]
 
 #	dt = dt[dt["parallax"]!=0] 
-	dt = dt[0:19]
+	#dt = dt[0:19]
 
 	dt = add_field(dt, [('dist', float)])
 	dt = add_field(dt, [('dist_lyr', float)])
@@ -221,6 +221,9 @@ elif use_catalog==yale:
 
 
 
+#np.append(dt,)
+
+#exit()
 
 #Ursa major
 #dt=dt[ dt["con"] == "UMa"]
@@ -255,6 +258,15 @@ dt["y"] = dt["dist_lyr"] * np.cos(dt["glat"]) * np.sin(dt["glong"])
 dt["z"] = dt["dist_lyr"] * np.sin(dt["glat"])
 
 
+
+polaris = dt[dt["hd"]==8890]
+
+#print polaris
+
+dt = dt[0:29]
+
+
+
 center_x=1000 * np.cos(0) * np.cos(0)
 center_y=1000 * np.cos(0) * np.sin(0)
 center_z=1000 * np.sin(0)
@@ -287,10 +299,12 @@ p4_z=1000 * np.sin(0)
 def show_galaxies_near_milky_way():
 
 
+
     ax = plt.subplot(111, projection='3d')
 
+
     #radius = 50 000 lyr
-    ax.plot((0,), (0,), (0,), 'o', color='cyan', markersize=15, label='sun')
+    ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=15, label='sun')
 
 #======== for orion ========================
 #    ax.plot((0,), (-1400,), (0,), 'o', color='orange', markersize=15, label='300')
@@ -322,11 +336,20 @@ def show_galaxies_near_milky_way():
 
 
 
-    circle = Circle((0, 0), 100,fill=False,color='red')
-    ax.add_patch(circle)
-    art3d.pathpatch_2d_to_3d(circle, z=0)
+    #circle = Circle((0, 0), 100,fill=False,color='red')
+    #ax.add_patch(circle)
+    #art3d.pathpatch_2d_to_3d(circle, z=0)
+
+    arc = Arc((27200,0,0),54400,54400,theta1 = 176,theta2=184)
+    ax.add_patch(arc)
+    art3d.pathpatch_2d_to_3d(arc, z=0)
 
 
+    #polaris
+    ax.plot([0,polaris["x"][0]], [0,polaris["y"][0]], [0, polaris["z"][0]],label='polaris')
+
+    #center galaxy
+    ax.plot([0, center_x], [0, center_y], [0, center_z],label='center galaxy')
 
 
     ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
@@ -341,7 +364,7 @@ def show_galaxies_near_milky_way():
         counter += 1
 
 #	if counter<29:
-        ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label="["+r["name"]+" "+str(r["vmag"]), markersize=5, marker=marker)
+        ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"]+" "+str(r["vmag"]), markersize=5, marker=marker)
 #	else:
 #	        ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=3)
 #		ax.plot([r["glat"]], [r["glong"]], [r["dist"]], 'o', label=r["name"], markersize=5, marker=marker)
@@ -364,7 +387,18 @@ def show_galaxies_near_milky_way():
 
     #plt.figure(1).tight_layout(pad=0)
 
+
+    #plt.axis('equal')
+
+    #ax.set_xlim3d(0, 2000)
+    #ax.set_ylim3d(0,2000)
+    #ax.set_zlim3d(0,2000)
+
+    ax.auto_scale_xyz([-1000, 1000], [-1000, 1000], [-1000, 1000])
+
+    plt.figure(1).tight_layout(pad=0)
     show_maximized_plot('local galactic group')
+    #plt.show()
 
 #for r in dt:
 #    print r["name"]
