@@ -4,8 +4,10 @@ import numpy.ma as ma
 
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
-from matplotlib.patches import Arc
+#from matplotlib.patches import Arc
+from matplotlib.patches import Circle
 import mpl_toolkits.mplot3d.art3d as art3d
+import scipy.constants as consts
 
 
 # ================================================================================================
@@ -33,24 +35,26 @@ def show_maximized_plot(Title):
     plt.close()
 
 
-def parsec_to_lightyear(dist):
+def kiloparsec_to_lightyear(dist):
     LIGHT_YEARS_IN_PARSEC = 3.2615638
-    return dist * LIGHT_YEARS_IN_PARSEC
+    return dist * consts.kilo * LIGHT_YEARS_IN_PARSEC
 
 # ================================================================================================
 
 
 
 
-dt = np.loadtxt('data/stars_data.tsv', skiprows=46, delimiter='|', usecols=(0, 1, 2, 3, 4),
-                dtype=[('glong', 'float'), ('glat', 'float'), ('vmag', 'float'), ('parallax', 'float'), ('hd', 'int')])
+dt = np.loadtxt('data/globular_cluster_data1.tsv', skiprows=49, delimiter='|', usecols=(0, 1, 2, 3, 4,5,6,7,8),
+                dtype=[('id', 'S20'), ('name', 'S20'), ('glong', 'float'), ('glat', 'float'), ('dist', 'float'),
+                       ('x1', 'float'), ('y1', 'float'), ('z1', 'float'), ('vmag', 'float')])
 
-names = np.loadtxt('data/stars_names.tsv', skiprows=35, delimiter='|', usecols=(0, 1),
-                   dtype=[('hd', 'int'), ('name', 'S20')])
+dt = np.sort(dt, order=['name'])
 
-constellations = np.loadtxt('data/stars_cons.tsv', skiprows=37, delimiter='|', usecols=(0, 1),
-                            dtype=[('hd', 'int'), ('con', 'S20')])
+#print dt
 
+#exit()
+
+"""
 result, indexes = np.unique(dt['hd'], return_index=True)
 dt = dt[indexes]
 
@@ -77,6 +81,16 @@ dt["parallax"] = np.absolute(dt["parallax"])
 
 dt["dist"] = 1 / (dt["parallax"] / 1000.0)
 dt["dist"] = parsec_to_lightyear(dt["dist"])
+"""
+
+fill_with_zeros = np.zeros(dt.size)
+
+
+dt = rfn.append_fields(dt, ['x', 'y', 'z'],
+                       [fill_with_zeros, fill_with_zeros, fill_with_zeros])
+
+
+dt["dist"]=kiloparsec_to_lightyear(dt["dist"])
 
 dt["glong"] = np.radians(dt["glong"])
 dt["glat"] = np.radians(dt["glat"])
@@ -85,33 +99,54 @@ dt["x"] = dt["dist"] * np.cos(dt["glat"]) * np.cos(dt["glong"])
 dt["y"] = dt["dist"] * np.cos(dt["glat"]) * np.sin(dt["glong"])
 dt["z"] = dt["dist"] * np.sin(dt["glat"])
 
-polaris = dt[dt["hd"] == 8890]
+#polaris = dt[dt["hd"] == 8890]
 
-dt = np.sort(dt, order=['vmag'])
-
-center_x = 1000 * np.cos(0) * np.cos(0)
-center_y = 1000 * np.cos(0) * np.sin(0)
-center_z = 1000 * np.sin(0)
+#dt = np.sort(dt, order=['vmag'])
 
 
-def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name):
+SUN_TO_CENTER_DISTANCE = 27200
+MILKY_WAY_RADIUS = 110000 / 2
+
+center_x = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.cos(0)
+center_y = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.sin(0)
+center_z = SUN_TO_CENTER_DISTANCE * np.sin(0)
+
+
+def show_stars(dt): #, range_x, range_y, range_z, count_show_with_legend, plot_name):
     ax = plt.subplot(111, projection='3d')
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
 
     # center galaxy
-    ax.plot([0, center_x], [0, center_y], [0, center_z], label='center galaxy')
+    #ax.plot([0, center_x], [0, center_y], [0, center_z], label='center galaxy')
 
-    arc = Arc((27200, 0, 0), 54400, 54400, theta1=176, theta2=184)
-    ax.add_patch(arc)
-    art3d.pathpatch_2d_to_3d(arc, z=0)
+    #arc = Arc((27200, 0, 0), 54400, 54400, theta1=176, theta2=184)
+    #ax.add_patch(arc)
+    #art3d.pathpatch_2d_to_3d(arc, z=0)
+
+
+    circle = Circle((center_x, center_y,center_z), SUN_TO_CENTER_DISTANCE,fill=False,color='blue')
+    ax.add_patch(circle)
+    art3d.pathpatch_2d_to_3d(circle, z=0)
+
+
+    circle = Circle((center_x, center_y,center_z), MILKY_WAY_RADIUS,fill=False,color='blue')
+    ax.add_patch(circle)
+    art3d.pathpatch_2d_to_3d(circle, z=0)
+
+    circle = Circle((0, 0, 0), 2000,fill=False,color='blue')
+    ax.add_patch(circle)
+    art3d.pathpatch_2d_to_3d(circle, z=0)
+
+
+
 
 
     #polaris
-    ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
+#    ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
 
-    ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
+    #ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
 
     counter = 0
 
@@ -119,11 +154,15 @@ def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name)
 
         marker = mlines.Line2D.filled_markers[counter % 8]
 
-        if counter < count_show_with_legend:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(r["vmag"]), markersize=5,
+        #if counter < count_show_with_legend:
+#            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(r["vmag"]), markersize=5,
+#                    marker=marker)
+#        else:
+        if r["name"].startswith('M '):
+            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(int(r["dist"])), markersize=5,
                     marker=marker)
         else:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=2)
+            ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=1)
 
         counter += 1
 
@@ -133,11 +172,16 @@ def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name)
     ax.set_ylabel('ly')
     ax.set_zlabel('ly')
 
-    ax.auto_scale_xyz(range_x, range_y, range_z)
+    ax.auto_scale_xyz([-25000,75000], [-50000,50000], [-50000,50000])
 
     plt.figure(1).tight_layout(pad=0)
 
-    show_maximized_plot(plot_name)
+    show_maximized_plot('brightest stars')
+
+
+show_stars(dt)
+
+exit()
 
 
 dt_stars = dt[0:29]
@@ -152,6 +196,3 @@ dt_orion = dt[dt["con"] == "Ori"]
 show_stars(dt_orion, [-600, 600], [-600, 600], [-600, 600], 7, "orion")
 
 
-dt_filtered=dt[dt['dist']<10000]
-plt.hist(dt_filtered['dist'],bins=150)
-plt.show()
