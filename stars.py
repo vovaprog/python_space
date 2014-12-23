@@ -152,6 +152,9 @@ dt_orion = dt[dt["con"] == "Ori"]
 show_stars(dt_orion, [-600, 600], [-600, 600], [-600, 600], 7, "orion")
 
 
-dt_filtered=dt[dt['dist']<10000]
-plt.hist(dt_filtered['dist'],bins=150)
-plt.show()
+dt_filtered = dt[dt['dist'] < 8000]
+plt.hist(dt_filtered['dist'], bins=150)
+plt.xlabel('distance light years')
+plt.ylabel('number of stars')
+show_maximized_plot("star histogram")
+
