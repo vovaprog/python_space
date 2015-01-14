@@ -80,7 +80,7 @@ def show_globular_clusters(dt, messier):
 
     for r in dt:
 
-        marker = mlines.Line2D.filled_markers[counter % 8]
+        marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
         if messier:
             if r["name"].startswith('M '):

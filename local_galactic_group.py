@@ -134,7 +134,7 @@ def show_galaxies(distance_limit):
     ax = plt.subplot(111, projection='3d')
     ax.scatter(0, 0, 0, color='red')
 
-    ax.scatter(x, y, z, c=vel, cmap=plt.cm.jet)  # gnuplot bwr
+    ax.scatter(x, y, z, c=vel, cmap=plt.cm.jet)
 
     #ax.view_init(elev=1, azim=1)
     ax.view_init(elev=20, azim=-120)

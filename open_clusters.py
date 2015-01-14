@@ -145,25 +145,11 @@ center_y = 5000 * np.cos(0) * np.sin(0)
 center_z = 5000 * np.sin(0)
 
 
-def show_open_clusters(dt, messier):
+def show_open_clusters(dt):
     ax = plt.subplot(111, projection='3d')
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-    """
-    circle = Circle((center_x, center_y, center_z), SUN_TO_CENTER_DISTANCE, fill=False, color='blue')
-    ax.add_patch(circle)
-    art3d.pathpatch_2d_to_3d(circle, z=0)
-
-    circle = Circle((center_x, center_y, center_z), MILKY_WAY_RADIUS, fill=False, color='blue')
-    ax.add_patch(circle)
-    art3d.pathpatch_2d_to_3d(circle, z=0)
-
-    circle = Circle((0, 0, 0), 2000, fill=False, color='blue')
-    ax.add_patch(circle)
-    art3d.pathpatch_2d_to_3d(circle, z=0)
-    """
-    
 
     # center galaxy
     ax.plot([0, center_x], [0, center_y], [0, center_z], label='center galaxy')
@@ -173,23 +159,13 @@ def show_open_clusters(dt, messier):
     art3d.pathpatch_2d_to_3d(arc, z=0)
 
 
-    #polaris
-    #ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
-
-
-
     counter = 0
 
     for r in dt:
 
-        marker = mlines.Line2D.filled_markers[counter % 8]
+        marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
-#        if messier:
-#            if r["name"].startswith('M '):
-        ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["messier"] + " " + str(int(r["dist"])), markersize=5,
-                        marker=marker)
-#        else:
-#            ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=3)
+        ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["messier"] + " " + str(int(r["dist"])), markersize=5, marker=marker)
 
         counter += 1
 
@@ -203,14 +179,9 @@ def show_open_clusters(dt, messier):
 
     plt.figure(1).tight_layout(pad=0)
 
-
-    ax.legend(fontsize=10)
-
     show_maximized_plot('open clusters')
 
 
-#show_globular_clusters(dt, False)
-
-show_open_clusters(dt, True)
+show_open_clusters(dt)
 
 
