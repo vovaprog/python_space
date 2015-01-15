@@ -76,22 +76,22 @@ def show_globular_clusters(dt, messier):
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
-    counter = 0
 
-    for r in dt:
+    if messier:
+        counter = 0
 
-        marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
+        for r in dt:
+            marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
-        if messier:
             if r["name"].startswith('M '):
-                ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(int(r["dist"])), markersize=5,
-                        marker=marker)
-        else:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=3)
+                ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(int(r["dist"])), markersize=5, marker=marker)
 
-        counter += 1
+            counter += 1
 
-    ax.legend()
+        ax.legend()
+    else:
+        ax.scatter(dt['x'], dt['y'], dt['z'])
+
 
     ax.set_xlabel('ly')
     ax.set_ylabel('ly')
