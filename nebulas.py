@@ -40,38 +40,35 @@ def show_maximized_plot(Title):
 # ================================================================================================
 
 
+def convert_ngc(ngc_string):
+    match = re.search('NGC\\s+([0-9]+)', ngc_string)
 
-messier_to_ngc = np.loadtxt('data/star info/messier_to_ngc.tsv', skiprows=43, delimiter='|', usecols=(0, 1, 2),
-                            dtype=[('ngc_string', 'S20'), ('type', 'S20'), ('messier', 'S20')])
+    if match is not None:
+        return int(match.group(1))
+    else:
+        match = re.search('IC\\s+([0-9]+)', ngc_string)
+        if match is not None:
+            return int("100" + match.group(1))
+        else:
+            return 0
+
+
+def convert_ngc_no_prefix(ngc_string):
+    return int(str(ngc_string).strip().replace("I", "100"))
+
+
+dt = np.genfromtxt('data/star info/nebula all 1.tsv', skiprows=47, delimiter='|', usecols=(0, 1, 2),
+                dtype=[('glong', 'float'), ('glat', 'float'), ('ngc', 'int')]
+                ,converters={2: convert_ngc}, filling_values={0: 0.0, 1: 0.0, 2: 0})
+
+messier_to_ngc = np.genfromtxt('data/star info/messier_to_ngc.tsv', skiprows=43, delimiter='|', usecols=(0, 1, 2),
+                            dtype=[('ngc', 'int'), ('type', 'S20'), ('messier', 'S20')],
+                            converters={0: convert_ngc_no_prefix, 1: lambda s: s.strip()})
 
 distance_data = np.loadtxt('data/star info/nebula_seds_data.tsv', skiprows=2, delimiter='|', usecols=(1, 2),
                            dtype=[('ngc', 'int'), ('dist', 'int')])
 
-dt = np.loadtxt('data/star info/nebula all 1.tsv', skiprows=47, delimiter='|', usecols=(0, 1, 2),
-                dtype=[('glong', 'float'), ('glat', 'float'), ('ngc_string', 'S20')])
-
-fill_with_zeros = np.zeros(messier_to_ngc.size, dtype=int)
-messier_to_ngc = rfn.append_fields(messier_to_ngc, ['ngc'], [fill_with_zeros])
-messier_to_ngc = ma.filled(messier_to_ngc, 0.0)
-
-for r in messier_to_ngc:
-    if type(r["ngc_string"]) != MaskedConstant:
-        r["ngc"] = int(str(r["ngc_string"]).strip().replace("I", "100"))
-        r["type"] = r["type"].strip()
-
-fill_with_zeros = np.zeros(dt.size, dtype=int)
-dt = rfn.append_fields(dt, ['ngc'], [fill_with_zeros])
-dt = ma.filled(dt, 0.0)
-
-for r in dt:
-    match = re.search('NGC\\s+([0-9]+)', r["ngc_string"])
-
-    if match is not None:
-        r["ngc"] = int(match.group(1))
-    else:
-        match = re.search('IC\\s+([0-9]+)', r["ngc_string"])
-        if match is not None:
-            r["ngc"] = int("100" + match.group(1))
+#=============================================================================
 
 result, indexes = np.unique(dt['ngc'], return_index=True)
 dt = dt[indexes]
@@ -86,23 +83,19 @@ dt = np.sort(dt, order=['ngc'])
 messier_to_ngc = np.sort(messier_to_ngc, order=['ngc'])
 distance_data = np.sort(distance_data, order=['ngc'])
 
-dt = rfn.join_by('ngc', dt, messier_to_ngc, jointype = 'leftouter')
-dt = ma.filled(dt, 0.0)
+#=============================================================================
+
+dt = rfn.join_by('ngc', dt, messier_to_ngc, jointype = 'leftouter', usemask=False, defaults={'messier': '', 'type': ''})
 
 dt = dt[(dt["type"] == "Nb") | (dt["type"] == "C+N")]
 
-dt = rfn.join_by('ngc', dt, distance_data, jointype = 'leftouter')
-dt = ma.filled(dt, 0.0)
+dt = rfn.join_by('ngc', dt, distance_data, jointype = 'leftouter', usemask=False, defaults={'dist': 0})
+
+#=============================================================================
 
 fill_with_zeros = np.zeros(dt.size)
+dt = rfn.append_fields(dt, ['x', 'y', 'z'], data=[fill_with_zeros,fill_with_zeros,fill_with_zeros], usemask=False)
 
-dt = rfn.append_fields(dt, ['x', 'y', 'z'], [fill_with_zeros, fill_with_zeros, fill_with_zeros])
-dt = ma.filled(dt, 0.0)
-
-dt = np.sort(dt, order=['messier'])
-
-for r in dt:
-    r["messier"] = re.sub("\s+", " ", r["messier"])
 
 dt["glong"] = np.radians(dt["glong"])
 dt["glat"] = np.radians(dt["glat"])
@@ -110,6 +103,11 @@ dt["glat"] = np.radians(dt["glat"])
 dt["x"] = dt["dist"] * np.cos(dt["glat"]) * np.cos(dt["glong"])
 dt["y"] = dt["dist"] * np.cos(dt["glat"]) * np.sin(dt["glong"])
 dt["z"] = dt["dist"] * np.sin(dt["glat"])
+
+#=============================================================================
+
+dt = np.sort(dt, order=['messier'])
+
 
 SUN_TO_CENTER_DISTANCE = 27200
 
