@@ -4,9 +4,11 @@ import matplotlib.lines as mlines
 from matplotlib.patches import Circle
 import mpl_toolkits.mplot3d.art3d as art3d
 import scipy.constants as consts
+import re
 
 
-# ================================================================================================
+#=====================================================================================================
+
 
 def set_graph_title(s):
     plt.title(s)
@@ -24,8 +26,8 @@ def maximize_plot_window():
         fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
 
 
-def show_maximized_plot(Title):
-    set_graph_title(Title)
+def show_maximized_plot(title):
+    set_graph_title(title)
     maximize_plot_window()
     plt.show()
     plt.close()
@@ -35,16 +37,28 @@ def kiloparsec_to_lightyear(dist):
     LIGHT_YEARS_IN_PARSEC = 3.2615638
     return dist * consts.kilo * LIGHT_YEARS_IN_PARSEC
 
-# ================================================================================================
+
+#=====================================================================================================
 
 
+def convert_messier(ngc_string):
+    match = re.search('M\\s+([0-9]+)', ngc_string)
+    if match is not None:
+        return int(match.group(1))
+    else:
+        return 0
 
 
-dt = np.loadtxt('data/globular_cluster_data1.tsv', skiprows=49, delimiter='|', usecols=(0, 1, 2, 3, 4, 5, 6, 7, 8),
-                dtype=[('id', 'S20'), ('name', 'S20'), ('glong', 'float'), ('glat', 'float'), ('dist', 'float'),
-                       ('x', 'float'), ('y', 'float'), ('z', 'float'), ('vmag', 'float')])
+dt = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
+                dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
+                converters={1: convert_messier})
 
-dt = np.sort(dt, order=['name'])
+
+#=====================================================================================================
+
+
+dt = np.sort(dt, order=['messier'])
+
 
 dt["x"] = kiloparsec_to_lightyear(dt["x"])
 dt["y"] = kiloparsec_to_lightyear(dt["y"])
@@ -83,8 +97,8 @@ def show_globular_clusters(dt, messier):
         for r in dt:
             marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
-            if r["name"].startswith('M '):
-                ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(int(r["dist"])), markersize=5, marker=marker)
+            if r["messier"] > 0:
+                ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label="M" + str(r["messier"]) + "   " + str(int(r["dist"])), markersize=5, marker=marker)
 
             counter += 1
 

@@ -48,14 +48,14 @@ def convert_ngc(ngc_string):
         return 0
 
 
-dt = np.genfromtxt('data/star info/nebula all 3.tsv', skiprows=51, delimiter='|', usecols=(0, 1, 2, 3, 4),
+dt = np.genfromtxt('data_release/nebulas.tsv', skiprows=51, delimiter='|', usecols=(0, 1, 2, 3, 4),
                    dtype=[('glat', 'float'), ('glong', 'float'), ('ngc', 'int'), ('type', 'S20'), ('messier', 'S20')],
                    converters={3: lambda s: str(s).strip()})
 
-nebula_distance = np.loadtxt('data/star info/nebula_seds_data.tsv', skiprows=2, delimiter='|', usecols=(1, 2),
+nebula_distance = np.loadtxt('data_release/nebulas_distance_seds.tsv', skiprows=2, delimiter='|', usecols=(1, 2),
                              dtype=[('ngc', 'int'), ('dist', 'int')])
 
-planetary_nebula_distance = np.loadtxt('data/star info/planetary nebula distance.tsv', skiprows=38, delimiter='|',
+planetary_nebula_distance = np.loadtxt('data_release/nebulas_distance_planetary.tsv', skiprows=38, delimiter='|',
                                        usecols=(0, 1),
                                        converters={0: convert_ngc}, dtype=[('ngc', 'int'), ('dist', 'int')])
 
