@@ -190,7 +190,7 @@ def show_galaxies(dt, near):
     ax = plt.subplot(111, projection='3d')
     ax.scatter(0, 0, 0, color='red')
 
-    ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vel'], cmap=plt.cm.jet,s=5)
+    ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vel'], cmap=plt.cm.jet,s=15,lw=0)
 
 
     # center galaxy
