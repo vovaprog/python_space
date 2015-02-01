@@ -130,9 +130,13 @@ def show_galaxies(dt, view_mode):
     if view_mode == 0:
         dt = dt[dt['dist'] < 10.0]
         box_size = 9.0
+    elif view_mode == 1:
+        dt = dt[dt['dist'] < 30.0]
+        box_size = 30.0
     else:
-        dt = dt[dt['dist'] < 90.0]
-        box_size = 90.0
+        dt = dt[dt['dist'] < 110.0]
+        dt = dt[dt['dist'] > 70.0]
+
 
     # if near:
     #     dt = dt[dt['dist'] < 15.0]
@@ -169,24 +173,39 @@ def show_galaxies(dt, view_mode):
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='IC342 group')
             elif str(r['name']) == 'NGC0224':
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Andromeda galaxy')
-        else:
+
+
+            elif str(r['name']) == 'NGC_3992':
+                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Ursa Major Cluster')
+
+
+
+        elif view_mode == 1:
             if str(r['name']) == 'NGC4477':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='virgo')
+                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='virgo cluster')
             elif str(r['name']) == 'NGC1365':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Fornax')
-            elif str(r['name']) == 'NGC003568':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Antlia Cluster')
-            elif str(r['name']) == 'NGC4696B':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Centaurus Cluster')
-            elif str(r['name']) == 'NGC3309':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Hydra Cluster')
-            elif str(r['name']) == 'NGC4874':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Coma Cluster')
+                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='fornax cluster')
+            # elif str(r['name']) == 'NGC003568':
+            #     ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Antlia Cluster')
+            # elif str(r['name']) == 'NGC4696B':
+            #     ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Centaurus Cluster')
+            # elif str(r['name']) == 'NGC3309':
+            #     ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Hydra Cluster')
+            # elif str(r['name']) == 'NGC4874':
+            #     ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Coma Cluster')
+            #
+            # elif str(r['name']) == 'NGC_3992':
+            #     ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='Ursa Major Cluster')
+
 
     ax.legend()
 
     #ax.view_init(elev=20, azim=-120)
-    ax.view_init(elev=10, azim=30)
+
+    if view_mode == 0:
+        ax.view_init(elev=10, azim=30)
+    elif view_mode == 1:
+        ax.view_init(elev=5, azim=-150)
 
     ax.set_xlabel('Mpc')
     ax.set_ylabel('Mpc')
@@ -208,13 +227,13 @@ def show_galaxies(dt, view_mode):
 
 
 
-# for r in dt:
-#     if str(r['name']).find('4874')>=0:
-#         print r['name']
+# for r in data:
+#      if str(r['name']).find('3992')>=0:
+#          print r['name']
 #exit()
 
-show_galaxies(data, 0)
-#show_galaxies(data, False)
+#show_galaxies(data, 0)
+show_galaxies(data, 1)
 
 
 #show_galaxies(dt[dt['dist'] < 10.0])
