@@ -1,6 +1,3 @@
-# http://edd.ifa.hawaii.edu/
-# http://edd.ifa.hawaii.edu/dfirst.php
-
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.constants as consts
@@ -42,7 +39,7 @@ def megaparsec_to_lightyear(dist):
 #================================================================================================
 
 
-data = np.loadtxt('data/GalaxiesData3.txt', skiprows=5, delimiter='|', usecols=(1, 2, 3, 4, 5),
+data = np.loadtxt('data_release/galaxies.tsv', skiprows=7, delimiter='|', usecols=(1, 2, 3, 4, 5),
                   dtype=[('dist', 'float'), ('glong', 'float'), ('glat', 'float'), ('vel', 'float'),
                          ('name', 'S20')])
 
@@ -62,17 +59,13 @@ data['dist_ly'] = megaparsec_to_lightyear(data['dist'])
 
 data = np.sort(data, order=['dist'])
 
-#================================= Galaxies near Milky Way ======================================
 
-center_x = 1 * np.cos(0) * np.cos(0)
-center_y = 1 * np.cos(0) * np.sin(0)
-center_z = 1 * np.sin(0)
+#================================================================================================
 
 
+def show_local_group(dt):
 
-
-
-def show_galaxies_near_milky_way(dt):
+    dt = dt[dt['dist'] < 1.0]
 
     ax = plt.subplot(111, projection='3d')
 
@@ -101,8 +94,6 @@ def show_galaxies_near_milky_way(dt):
 
         counter += 1
 
-    #ax.legend(fontsize=11)
-
     ax.legend()
 
     ax.set_xlabel('Mpc')
@@ -113,56 +104,35 @@ def show_galaxies_near_milky_way(dt):
 
     plt.figure(1).tight_layout(pad=0)
 
-    show_maximized_plot('local galactic group')
+    show_maximized_plot('local group')
 
 
-#=================================== big map ====================================================
+#================================================================================================
+
 
 def show_galaxies(dt, view_mode):
 
-    # distance_filter = distance_all < distance_limit
-    #
-    # vel = velocity_all[distance_filter]
-    # x = x_all[distance_filter]
-    # y = y_all[distance_filter]
-    # z = z_all[distance_filter]
-
     if view_mode == 0:
-        dt = dt[dt['dist'] < 10.0]
-        box_size = 9.0
+        box_size = 10.0
+        dt = dt[dt['dist'] < box_size]
     elif view_mode == 1:
-        dt = dt[dt['dist'] < 30.0]
         box_size = 30.0
+        dt = dt[dt['dist'] < box_size]
     elif view_mode == 2:
-        dt = dt[dt['dist'] < 70.0]
-        dt = dt[dt['dist'] > 30.0]
         box_size = 70.0
+        dt = dt[dt['dist'] < box_size]
+        dt = dt[dt['dist'] > 30.0]
     elif view_mode == 3:
-        dt = dt[dt['dist'] < 110.0]
+        box_size = 120.0
+        dt = dt[dt['dist'] < box_size]
         dt = dt[dt['dist'] > 40.0]
-        box_size = 110.0
-
-
-    # if near:
-    #     dt = dt[dt['dist'] < 15.0]
-    # else:
-    #     dt = dt[dt['dist'] > 90.0]
-
-
 
     ax = plt.subplot(111, projection='3d')
     ax.scatter(0, 0, 0, color='red')
 
-    #ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vel'], cmap=plt.cm.jet,s=15,lw=0)
     ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vel'], cmap=plt.cm.jet)
 
-
     ax.set_color_cycle(['r', 'g', 'm', 'c', 'y', 'b'])
-
-    # center galaxy
-    #ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
-
-
 
     for r in dt:
         if view_mode == 0:
@@ -185,12 +155,7 @@ def show_galaxies(dt, view_mode):
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='virgo cluster')
             elif str(r['name']) == 'NGC1365':
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='fornax cluster')
-        elif view_mode == 2:
-            if str(r['name']) == 'NGC4696B':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='centaurus cluster')
-            elif str(r['name']) == 'NGC3309':
-                ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='hydra cluster')
-        elif view_mode == 3:
+        elif view_mode == 2 or view_mode == 3:
             if str(r['name']) == 'NGC4696B':
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='centaurus cluster')
             elif str(r['name']) == 'NGC3309':
@@ -198,12 +163,10 @@ def show_galaxies(dt, view_mode):
             elif str(r['name']) == 'NGC4874':
                 ax.plot([0, r['x']], [0, r['y']], [0, r['z']], label='coma cluster')
 
-
     ax.legend()
 
-
     if view_mode == 0:
-        ax.view_init(elev=10, azim=30)
+        ax.view_init(elev=10, azim=40)
     elif view_mode == 1:
         ax.view_init(elev=5, azim=-150)
     elif view_mode == 2 or view_mode == 3:
@@ -217,21 +180,14 @@ def show_galaxies(dt, view_mode):
 
     ax.auto_scale_xyz([-box_size, box_size], [-box_size, box_size], [-box_size, box_size])
 
-    #show_maximized_plot('galaxies ' + str(distance_limit) + ' Mpc')
-    show_maximized_plot('galaxies ' + '???' + ' Mpc')
+    show_maximized_plot('galaxies ' + str(int(box_size)) + ' Mpc')
+
 
 #================================================================================================
 
 
-#data_filtered = data[data['dist'] < 1.0]
-#show_galaxies_near_milky_way(data_filtered)
+show_local_group(data)
 
-
-
-# for r in data:
-#      if str(r['name']).find('3992')>=0:
-#          print r['name']
-#exit()
 
 show_galaxies(data, 0)
 show_galaxies(data, 1)
@@ -239,6 +195,3 @@ show_galaxies(data, 2)
 show_galaxies(data, 3)
 
 
-#show_galaxies(dt[dt['dist'] < 10.0])
-#show_galaxies(dt[dt['dist'] < 35.0])
-#show_galaxies(dt[dt['dist'] < 50.0])
