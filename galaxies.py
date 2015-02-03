@@ -24,8 +24,8 @@ def maximize_plot_window():
         fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
 
 
-def show_maximized_plot(Title):
-    set_graph_title(Title)
+def show_maximized_plot(title):
+    set_graph_title(title)
     maximize_plot_window()
     plt.show()
     plt.close()

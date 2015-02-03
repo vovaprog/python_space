@@ -68,6 +68,14 @@ z_all = distance_all * np.sin(glat)
 
 #================================= Galaxies near Milky Way ======================================
 
+center_x = 15 * np.cos(0) * np.cos(0)
+center_y = 15 * np.cos(0) * np.sin(0)
+center_z = 15 * np.sin(0)
+
+
+
+
+
 def show_galaxies_near_milky_way():
     distance_filter = distance_all < 1.0
 
@@ -84,6 +92,9 @@ def show_galaxies_near_milky_way():
 
     #radius = 50 000 lyr
     ax.plot((0,), (0,), (0,), 'o', color='cyan', markersize=15, label='milky way')
+
+
+
 
 
     ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
@@ -106,7 +117,6 @@ def show_galaxies_near_milky_way():
                 markersize=marker_size, marker=marker)
 
     #ax.legend(fontsize=11)
-
     ax.legend()
 
     ax.set_xlabel('Mpc')
@@ -134,7 +144,14 @@ def show_galaxies(distance_limit):
     ax = plt.subplot(111, projection='3d')
     ax.scatter(0, 0, 0, color='red')
 
+    #ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vel'], cmap=plt.cm.jet,s=15,lw=0)
     ax.scatter(x, y, z, c=vel, cmap=plt.cm.jet)
+
+
+    # center galaxy
+    ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
+
+
 
     #ax.view_init(elev=1, azim=1)
     ax.view_init(elev=20, azim=-120)
@@ -152,3 +169,8 @@ show_galaxies_near_milky_way()
 show_galaxies(10)
 show_galaxies(25)
 show_galaxies(50)
+
+# for r in data:
+#      if str(r['name']).find('3992')>=0:
+#          print r['name']
+#exit()

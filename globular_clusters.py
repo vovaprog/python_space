@@ -49,7 +49,7 @@ def convert_messier(ngc_string):
         return 0
 
 
-dt = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
+data = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
                 dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
                 converters={1: convert_messier})
 
@@ -57,13 +57,13 @@ dt = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|'
 #=====================================================================================================
 
 
-dt = np.sort(dt, order=['messier'])
+data = np.sort(data, order=['messier'])
 
 
-dt["x"] = kiloparsec_to_lightyear(dt["x"])
-dt["y"] = kiloparsec_to_lightyear(dt["y"])
-dt["z"] = kiloparsec_to_lightyear(dt["z"])
-dt["dist"] = kiloparsec_to_lightyear(dt["dist"])
+data["x"] = kiloparsec_to_lightyear(data["x"])
+data["y"] = kiloparsec_to_lightyear(data["y"])
+data["z"] = kiloparsec_to_lightyear(data["z"])
+data["dist"] = kiloparsec_to_lightyear(data["dist"])
 
 SUN_TO_CENTER_DISTANCE = 27200
 MILKY_WAY_RADIUS = 110000 / 2
@@ -71,6 +71,9 @@ MILKY_WAY_RADIUS = 110000 / 2
 center_x = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.cos(0)
 center_y = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.sin(0)
 center_z = SUN_TO_CENTER_DISTANCE * np.sin(0)
+
+
+#=====================================================================================================
 
 
 def show_globular_clusters(dt, messier):
@@ -118,8 +121,11 @@ def show_globular_clusters(dt, messier):
     show_maximized_plot('globular clusters')
 
 
-show_globular_clusters(dt, False)
+#=====================================================================================================
 
-show_globular_clusters(dt, True)
+
+show_globular_clusters(data, False)
+
+show_globular_clusters(data, True)
 
 

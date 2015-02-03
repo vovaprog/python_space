@@ -38,45 +38,66 @@ def parsec_to_lightyear(dist):
     LIGHT_YEARS_IN_PARSEC = 3.2615638
     return dist * LIGHT_YEARS_IN_PARSEC
 
+
 # ================================================================================================
 
 
+def convert_ngc(ngc_string):
+    match = re.search('NGC\\s+([0-9]+)', ngc_string)
 
+    if match is not None:
+        return int(match.group(1))
+    else:
+        match = re.search('IC\\s+([0-9]+)', ngc_string)
+        if match != None:
+            return int("100" + match.group(1))
+        else:
+            return 0
+
+def convert_distance(s):
+    s = s.strip()
+    return int(s) if s != '' else 0
+
+dt = np.loadtxt('data/star info/open clusters 2.tsv', skiprows=42, delimiter='|', usecols=(0, 1, 2, 3),
+                dtype=[('glong', 'float'), ('glat', 'float'), ('ngc', 'int'), ('dist_pc', 'int')],
+                converters={2: convert_ngc, 3: convert_distance})
+
+
+def convert_ngc2(ngc_string):
+    ngc_string = ngc_string.strip().replace("I", "100")
+    return int(ngc_string)
 
 messier_to_ngc = np.loadtxt('data/star info/messier_to_ngc.tsv', skiprows=43, delimiter='|', usecols=(0, 1, 2),
-                dtype=[('ngc', 'S20'), ('type', 'S20'), ('messier', 'S20')])
-
-
-dt = np.loadtxt('data/star info/open clusters 2.tsv', skiprows=42, delimiter='|', usecols=(0, 1, 2,3),
-                dtype=[('glong', 'float'), ('glat', 'float'), ('ngc', 'S20'),('dist_pc','S20')])
+                            dtype = [('ngc', 'int'), ('type', 'S20'), ('messier', 'S20')],
+                            converters = {0: convert_ngc2, 1: lambda s: str(s).strip()})
 
 
 
-for r in messier_to_ngc:
-	r["ngc"]=int(r["ngc"].strip().replace("I","100"))
-	r["type"]=r["type"].strip()	
 
-for r in dt:
-	r["dist_pc"]=r["dist_pc"].strip()
-	if r["dist_pc"] != "":
-		r["dist_pc"]=float(r["dist_pc"])
-	else:
-		r["dist_pc"]=0.0
-
-	match = re.search('NGC\\s+([0-9]+)', r["ngc"])
-
-	if match != None:
-		r["ngc"]=int(match.group(1))
-	else:
-		match = re.search('IC\\s+([0-9]+)', r["ngc"])
-		if match != None:
-			r["ngc"]=int("100" + match.group(1))		
-			print r["ngc"]
+# for r in messier_to_ngc:
+# 	r["ngc"]=int(r["ngc"].strip().replace("I","100"))
+# 	r["type"]=r["type"].strip()
+#
+# for r in dt:
+# 	r["dist_pc"]=r["dist_pc"].strip()
+# 	if r["dist_pc"] != "":
+# 		r["dist_pc"]=float(r["dist_pc"])
+# 	else:
+# 		r["dist_pc"]=0.0
+#
+# 	match = re.search('NGC\\s+([0-9]+)', r["ngc"])
+#
+# 	if match != None:
+# 		r["ngc"]=int(match.group(1))
+# 	else:
+# 		match = re.search('IC\\s+([0-9]+)', r["ngc"])
+# 		if match != None:
+# 			r["ngc"]=int("100" + match.group(1))
+# 			print r["ngc"]
 
 
 result, indexes = np.unique(messier_to_ngc['ngc'], return_index=True)
 messier_to_ngc = messier_to_ngc[indexes]
-
 
 result, indexes = np.unique(dt['ngc'], return_index=True)
 dt = dt[indexes]
@@ -84,40 +105,33 @@ dt = dt[indexes]
 
 
 
-dt = rfn.join_by('ngc', dt, messier_to_ngc, jointype='leftouter')
+dt = rfn.join_by('ngc', dt, messier_to_ngc, jointype='leftouter', usemask=False)
 
 dt = dt[(dt["type"]=="OC") | (dt["type"]=="C+N")]
 
 
 
+
+
+
+
 fill_with_zeros = np.zeros(dt.size)
 
-#dt = rfn.append_fields(dt, ['dist'], [fill_with_zeros])
+
 dt = rfn.append_fields(dt, ['x', 'y', 'z', 'dist'],
-                       [fill_with_zeros, fill_with_zeros, fill_with_zeros, fill_with_zeros])
+                       [fill_with_zeros, fill_with_zeros, fill_with_zeros, fill_with_zeros], usemask=False)
+
+print dt
+print type(dt)
+
+exit()
 
 
-
-#dt["dist"] = ma.filled(dt["dist"], 0.0)
-#print type(ma.filled(dt["dist"], 0.0))
-#print type(dt["dist"])
-#exit()
-
-
-#dt["dist"]=ma.compress_rows(dt["dist"])
-#dt=ma.compress_rows(dt)
 
 dt["dist"]=dt["dist_pc"]
 dt["dist"]=parsec_to_lightyear(dt["dist"])
 
 dt = np.sort(dt, order=['messier'])
-print dt
-print dt.size
-
-#print messier_to_ngc
-
-
-#exit()
 
 
 
