@@ -3,39 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 from matplotlib.patches import Circle
 import mpl_toolkits.mplot3d.art3d as art3d
-import scipy.constants as consts
 import re
 
-
-#=====================================================================================================
-
-
-def set_graph_title(s):
-    plt.title(s)
-    fig = plt.gcf()
-    fig.canvas.set_window_title(s)
-
-
-def maximize_plot_window():
-    fig_manager = plt.get_current_fig_manager()
-    backend_name = plt.get_backend().lower()
-    if backend_name.find('qt') >= 0:
-        fig_manager.window.showMaximized()
-    elif backend_name.find('tk') >= 0:
-        maxsz = fig_manager.window.maxsize()
-        fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
-
-
-def show_maximized_plot(title):
-    set_graph_title(title)
-    maximize_plot_window()
-    plt.show()
-    plt.close()
-
-
-def kiloparsec_to_lightyear(dist):
-    LIGHT_YEARS_IN_PARSEC = 3.2615638
-    return dist * consts.kilo * LIGHT_YEARS_IN_PARSEC
+from spaceutils import show_maximized_plot, kiloparsec_to_lightyear
 
 
 #=====================================================================================================
@@ -50,15 +20,14 @@ def convert_messier(ngc_string):
 
 
 data = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
-                dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
-                converters={1: convert_messier})
+                  dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
+                  converters={1: convert_messier})
 
 
 #=====================================================================================================
 
 
 data = np.sort(data, order=['messier'])
-
 
 data["x"] = kiloparsec_to_lightyear(data["x"])
 data["y"] = kiloparsec_to_lightyear(data["y"])
@@ -115,8 +84,6 @@ def show_globular_clusters(dt, messier):
     ax.set_zlabel('ly')
 
     ax.auto_scale_xyz([-35000, 85000], [-60000, 60000], [-60000, 60000])
-
-    plt.figure(1).tight_layout(pad=0)
 
     show_maximized_plot('globular clusters')
 

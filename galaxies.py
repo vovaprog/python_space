@@ -1,39 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.constants as consts
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.lines as mlines
 import numpy.lib.recfunctions as rfn
 
-#================================================================================================
-
-
-def set_graph_title(s):
-    plt.title(s)
-    fig = plt.gcf()
-    fig.canvas.set_window_title(s)
-
-
-def maximize_plot_window():
-    fig_manager = plt.get_current_fig_manager()
-    backend_name = plt.get_backend().lower()
-    if backend_name.find('qt') >= 0:
-        fig_manager.window.showMaximized()
-    elif backend_name.find('tk') >= 0:
-        maxsz = fig_manager.window.maxsize()
-        fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
-
-
-def show_maximized_plot(title):
-    set_graph_title(title)
-    maximize_plot_window()
-    plt.show()
-    plt.close()
-
-
-def megaparsec_to_lightyear(dist):
-    LIGHT_YEARS_IN_PARSEC = 3.2615638
-    return dist * consts.mega * LIGHT_YEARS_IN_PARSEC
+from spaceutils import megaparsec_to_lightyear, show_maximized_plot
 
 
 #================================================================================================
@@ -101,8 +72,6 @@ def show_local_group(dt):
     ax.set_zlabel('Mpc')
 
     ax.view_init(elev=10, azim=-25)
-
-    plt.figure(1).tight_layout(pad=0)
 
     show_maximized_plot('local group')
 
@@ -175,8 +144,6 @@ def show_galaxies(dt, view_mode):
     ax.set_xlabel('Mpc')
     ax.set_ylabel('Mpc')
     ax.set_zlabel('Mpc')
-
-    plt.figure(1).tight_layout(pad=0)
 
     ax.auto_scale_xyz([-box_size, box_size], [-box_size, box_size], [-box_size, box_size])
 

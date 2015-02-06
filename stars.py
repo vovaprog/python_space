@@ -7,39 +7,10 @@ import matplotlib.lines as mlines
 from matplotlib.patches import Arc
 import mpl_toolkits.mplot3d.art3d as art3d
 
-
-# ================================================================================================
-
-def set_graph_title(s):
-    plt.title(s)
-    fig = plt.gcf()
-    fig.canvas.set_window_title(s)
+from spaceutils import parsec_to_lightyear, show_maximized_plot
 
 
-def maximize_plot_window():
-    fig_manager = plt.get_current_fig_manager()
-    backend_name = plt.get_backend().lower()
-    if backend_name.find('qt') >= 0:
-        fig_manager.window.showMaximized()
-    elif backend_name.find('tk') >= 0:
-        maxsz = fig_manager.window.maxsize()
-        fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
-
-
-def show_maximized_plot(Title):
-    set_graph_title(Title)
-    maximize_plot_window()
-    plt.show()
-    plt.close()
-
-
-def parsec_to_lightyear(dist):
-    LIGHT_YEARS_IN_PARSEC = 3.2615638
-    return dist * LIGHT_YEARS_IN_PARSEC
-
-# ================================================================================================
-
-
+#================================================================================================
 
 
 dt = np.loadtxt('data/stars_data.tsv', skiprows=46, delimiter='|', usecols=(0, 1, 2, 3, 4),
@@ -99,9 +70,7 @@ def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name)
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-
-    # center galaxy
-    ax.plot([0, center_x], [0, center_y], [0, center_z], label='center galaxy')
+    ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
 
     arc = Arc((27200, 0, 0), 54400, 54400, theta1=176, theta2=184)
     ax.add_patch(arc)

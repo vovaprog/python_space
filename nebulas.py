@@ -5,36 +5,7 @@ import re
 import numpy.lib.recfunctions as rfn
 from matplotlib.patches import Arc
 
-
-#================================================================================================
-
-
-def set_graph_title(s):
-    plt.title(s)
-    fig = plt.gcf()
-    fig.canvas.set_window_title(s)
-
-
-def maximize_plot_window():
-    fig_manager = plt.get_current_fig_manager()
-    backend_name = plt.get_backend().lower()
-    if backend_name.find('qt') >= 0:
-        fig_manager.window.showMaximized()
-    elif backend_name.find('tk') >= 0:
-        maxsz = fig_manager.window.maxsize()
-        fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
-
-
-def show_maximized_plot(title):
-    set_graph_title(title)
-    maximize_plot_window()
-    plt.show()
-    plt.close()
-
-
-def parsec_to_lightyear(dist):
-    LIGHT_YEARS_IN_PARSEC = 3.2615638
-    return dist * LIGHT_YEARS_IN_PARSEC
+from spaceutils import parsec_to_lightyear, show_maximized_plot
 
 
 #================================================================================================
@@ -122,7 +93,6 @@ ax = plt.subplot(111, projection='3d')
 
 ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-# center galaxy
 ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
 
 arc = Arc((SUN_TO_CENTER_DISTANCE, 0, 0), 2 * SUN_TO_CENTER_DISTANCE, 2 * SUN_TO_CENTER_DISTANCE, theta1=170,
@@ -149,9 +119,7 @@ ax.set_xlabel('ly')
 ax.set_ylabel('ly')
 ax.set_zlabel('ly')
 
-ax.auto_scale_xyz([-6000, 6000], [-6000, 6000], [-6000, 6000])
-
-plt.figure(1).tight_layout(pad=0)
+ax.auto_scale_xyz([-7000, 7000], [-7000, 7000], [-7000, 7000])
 
 show_maximized_plot('nebulas')
 
