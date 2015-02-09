@@ -22,6 +22,8 @@ names = np.loadtxt('data/stars_names.tsv', skiprows=35, delimiter='|', usecols=(
 constellations = np.loadtxt('data/stars_cons.tsv', skiprows=37, delimiter='|', usecols=(0, 1),
                             dtype=[('hd', 'int'), ('con', 'S20')])
 
+#================================================================================================
+
 result, indexes = np.unique(dt['hd'], return_index=True)
 dt = dt[indexes]
 
@@ -46,6 +48,7 @@ dt = dt[dt["parallax"] != 0]
 
 dt["parallax"] = np.absolute(dt["parallax"])
 
+#parallax: Vizier xpUnit:	milli-second of arc
 dt["dist"] = 1 / (dt["parallax"] / 1000.0)
 dt["dist"] = parsec_to_lightyear(dt["dist"])
 
@@ -60,24 +63,31 @@ polaris = dt[dt["hd"] == 8890]
 
 dt = np.sort(dt, order=['vmag'])
 
-center_x = 1000 * np.cos(0) * np.cos(0)
-center_y = 1000 * np.cos(0) * np.sin(0)
-center_z = 1000 * np.sin(0)
+# center_x = 1000 * np.cos(0) * np.cos(0)
+# center_y = 1000 * np.cos(0) * np.sin(0)
+# center_z = 1000 * np.sin(0)
+#
+# print center_x
+# print center_y
+# print center_z
 
+#exit()
 
-def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name):
+SUN_TO_CENTER_DISTANCE = 27200.0
+
+#def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name):
+def show_stars(dt, range, count_show_with_legend, plot_name):
     ax = plt.subplot(111, projection='3d')
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-    ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
+    ax.plot([0, range], [0, 0], [0, 0], label='to galaxy center')
 
-    arc = Arc((27200, 0, 0), 54400, 54400, theta1=176, theta2=184)
+    arc = Arc((27200, 0, 0), 54400, 54400, theta1=180 - np.degrees(range/SUN_TO_CENTER_DISTANCE), theta2=180 + np.degrees(range/SUN_TO_CENTER_DISTANCE))
     ax.add_patch(arc)
     art3d.pathpatch_2d_to_3d(arc, z=0)
 
 
-    #polaris
     ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
 
     ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
@@ -102,23 +112,27 @@ def show_stars(dt, range_x, range_y, range_z, count_show_with_legend, plot_name)
     ax.set_ylabel('ly')
     ax.set_zlabel('ly')
 
-    ax.auto_scale_xyz(range_x, range_y, range_z)
+    #ax.auto_scale_xyz(range_x, range_y, range_z)
+    ax.auto_scale_xyz([-range, range], [-range, range], [-range, range])
 
-    plt.figure(1).tight_layout(pad=0)
+#    plt.figure(1).tight_layout(pad=0)
 
     show_maximized_plot(plot_name)
 
 
-dt_stars = dt[0:29]
-show_stars(dt_stars, [-1000, 1000], [-1000, 1000], [-1000, 1000], 1000, "brightest stars")
+dt_stars = dt[0:30]
+
+show_stars(dt_stars, 1000, 30, "brightest stars")
+
 
 
 dt_ursa = dt[dt["con"] == "UMa"]
-show_stars(dt_ursa, [-200, 200], [-200, 200], [-200, 200], 6, "ursa major")
-
+#show_stars(dt_ursa, [-200, 200], [-200, 200], [-200, 200], 6, "ursa major")
+show_stars(dt_ursa, 200, 6, "ursa major")
 
 dt_orion = dt[dt["con"] == "Ori"]
-show_stars(dt_orion, [-600, 600], [-600, 600], [-600, 600], 7, "orion")
+#show_stars(dt_orion, [-600, 600], [-600, 600], [-600, 600], 7, "orion")
+show_stars(dt_orion, 600, 7, "orion")
 
 
 dt_filtered = dt[dt['dist'] < 8000]
