@@ -14,7 +14,9 @@ data = np.loadtxt('data_release/galaxies.tsv', skiprows=7, delimiter='|', usecol
                   dtype=[('dist', 'float'), ('glong', 'float'), ('glat', 'float'), ('vel', 'float'),
                          ('name', 'S20')])
 
+
 #================================================================================================
+
 
 data['glong'] = np.radians(data['glong'])
 data['glat'] = np.radians(data['glat'])

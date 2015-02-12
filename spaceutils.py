@@ -45,3 +45,8 @@ def megaparsec_to_lightyear(dist):
 def kiloparsec_to_lightyear(dist):
     return parsec_to_lightyear(dist * consts.kilo)
 
+
+def parallax_millisecond_to_light_year(p):
+    d = 1 / (p * consts.milli)
+    return parsec_to_lightyear(d)
+
