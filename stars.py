@@ -82,24 +82,23 @@ def show_stars(dt, range, count_show_with_legend, plot_name):
 
     ax.plot([0, range], [0, 0], [0, 0], label='to galaxy center')
 
-    arc = Arc((27200, 0, 0), 54400, 54400, theta1=180 - np.degrees(range/SUN_TO_CENTER_DISTANCE), theta2=180 + np.degrees(range/SUN_TO_CENTER_DISTANCE))
+    arc = Arc((27200, 0, 0), SUN_TO_CENTER_DISTANCE * 2, SUN_TO_CENTER_DISTANCE * 2,
+              theta1=180 - np.degrees(range/SUN_TO_CENTER_DISTANCE), theta2=180 + np.degrees(range/SUN_TO_CENTER_DISTANCE))
     ax.add_patch(arc)
     art3d.pathpatch_2d_to_3d(arc, z=0)
 
 
     ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
 
-    ax.set_color_cycle(['r', 'g', 'b', 'y', 'c', 'm'])
-
     counter = 0
 
     for r in dt:
-
-        marker = mlines.Line2D.filled_markers[counter % 8]
+        marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
         if counter < count_show_with_legend:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label=r["name"] + " " + str(r["vmag"]), markersize=5,
-                    marker=marker)
+            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o',
+                    label=r["name"] + " " + str(r["vmag"]) + " " + str(int(r["dist"])) + "ly",
+                    markersize=5, marker=marker)
         else:
             ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=2)
 
