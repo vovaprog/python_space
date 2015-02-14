@@ -11,13 +11,13 @@ from spaceutils import parallax_millisecond_to_light_year, show_maximized_plot
 #================================================================================================
 
 
-data = np.loadtxt('data_release/stars.tsv', skiprows=46, delimiter='|', usecols=(0, 1, 2, 3, 4),
+data = np.loadtxt('data/stars.tsv', skiprows=46, delimiter='|', usecols=(0, 1, 2, 3, 4),
                 dtype=[('glong', 'float'), ('glat', 'float'), ('vmag', 'float'), ('parallax', 'float'), ('hd', 'int')])
 
-names = np.loadtxt('data_release/stars_names.tsv', skiprows=35, delimiter='|', usecols=(0, 1),
+names = np.loadtxt('data/stars_names.tsv', skiprows=35, delimiter='|', usecols=(0, 1),
                    dtype=[('hd', 'int'), ('name', 'S20')])
 
-constellations = np.loadtxt('data_release/stars_cons.tsv', skiprows=37, delimiter='|', usecols=(0, 1),
+constellations = np.loadtxt('data/stars_cons.tsv', skiprows=37, delimiter='|', usecols=(0, 1),
                             dtype=[('hd', 'int'), ('con', 'S20')])
 
 

@@ -19,7 +19,7 @@ def convert_ngc(ngc_string):
         return int(match.group(1))
     else:
         match = re.search('IC\\s+([0-9]+)', ngc_string)
-        if match != None:
+        if match is not None:
             return int("100" + match.group(1))
         else:
             return 0
@@ -28,7 +28,7 @@ def convert_distance(s):
     s = s.strip()
     return int(s) if s != '' else 0
 
-data = np.loadtxt('data_release/open_clusters.tsv', skiprows=42, delimiter='|', usecols=(0, 1, 2, 3),
+data = np.loadtxt('data/open_clusters.tsv', skiprows=42, delimiter='|', usecols=(0, 1, 2, 3),
                 dtype=[('glong', 'float'), ('glat', 'float'), ('ngc', 'int'), ('dist', 'int')],
                 converters={2: convert_ngc, 3: convert_distance})
 
@@ -37,7 +37,7 @@ def convert_ngc2(ngc_string):
     ngc_string = ngc_string.strip().replace("I", "100")
     return int(ngc_string)
 
-ngc_to_messier = np.loadtxt('data_release/ngc_to_messier.tsv', skiprows=43, delimiter='|', usecols=(0, 1, 2),
+ngc_to_messier = np.loadtxt('data/ngc_to_messier.tsv', skiprows=43, delimiter='|', usecols=(0, 1, 2),
                             dtype = [('ngc', 'int'), ('type', 'S20'), ('messier', 'S20')],
                             converters = {0: convert_ngc2, 1: lambda s: str(s).strip()})
 

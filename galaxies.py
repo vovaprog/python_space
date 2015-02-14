@@ -10,7 +10,7 @@ from spaceutils import megaparsec_to_lightyear, show_maximized_plot
 #================================================================================================
 
 
-data = np.loadtxt('data_release/galaxies.tsv', skiprows=7, delimiter='|', usecols=(1, 2, 3, 4, 5),
+data = np.loadtxt('data/galaxies.tsv', skiprows=7, delimiter='|', usecols=(1, 2, 3, 4, 5),
                   dtype=[('dist', 'float'), ('glong', 'float'), ('glat', 'float'), ('vel', 'float'),
                          ('name', 'S20')])
 

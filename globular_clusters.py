@@ -19,7 +19,7 @@ def convert_messier(ngc_string):
         return 0
 
 
-data = np.loadtxt('data_release/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
+data = np.loadtxt('data/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
                   dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
                   converters={1: convert_messier})
 
