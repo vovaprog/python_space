@@ -33,9 +33,9 @@ names = names[indexes]
 result, indexes = np.unique(constellations['hd'], return_index=True)
 constellations = constellations[indexes]
 
-data = rfn.join_by('hd', data, names, jointype='leftouter', usemask=False, defaults={'name': '-'})
+data = rfn.join_by('hd', data, names, jointype='leftouter', usemask=False, defaults={'name': '?'})
 
-data = rfn.join_by('hd', data, constellations, jointype='leftouter',usemask=False, defaults={'con': '-'})
+data = rfn.join_by('hd', data, constellations, jointype='leftouter',usemask=False, defaults={'con': '?'})
 
 fill_with_zeros = np.zeros(data.size)
 
