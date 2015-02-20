@@ -82,18 +82,15 @@ dt = np.sort(dt, order=['messier'])
 
 SUN_TO_CENTER_DISTANCE = 27200
 
-center_x = 5000 * np.cos(0) * np.cos(0)
-center_y = 5000 * np.cos(0) * np.sin(0)
-center_z = 5000 * np.sin(0)
-
 
 #================================================================================================
+
 
 ax = plt.subplot(111, projection='3d')
 
 ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-ax.plot([0, center_x], [0, center_y], [0, center_z], label='to galaxy center')
+ax.plot([0, 5000], [0, 0], [0, 0], label='to galaxy center')
 
 arc = Arc((SUN_TO_CENTER_DISTANCE, 0, 0), 2 * SUN_TO_CENTER_DISTANCE, 2 * SUN_TO_CENTER_DISTANCE, theta1=170,
           theta2=190)

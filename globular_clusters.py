@@ -37,10 +37,6 @@ data["dist"] = kiloparsec_to_lightyear(data["dist"])
 SUN_TO_CENTER_DISTANCE = 27200
 MILKY_WAY_RADIUS = 110000 / 2
 
-center_x = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.cos(0)
-center_y = SUN_TO_CENTER_DISTANCE * np.cos(0) * np.sin(0)
-center_z = SUN_TO_CENTER_DISTANCE * np.sin(0)
-
 
 #=====================================================================================================
 
@@ -50,11 +46,11 @@ def show_globular_clusters(dt, messier):
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
 
-    circle = Circle((center_x, center_y, center_z), SUN_TO_CENTER_DISTANCE, fill=False, color='blue')
+    circle = Circle((SUN_TO_CENTER_DISTANCE, 0, 0), SUN_TO_CENTER_DISTANCE, fill=False, color='blue')
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
-    circle = Circle((center_x, center_y, center_z), MILKY_WAY_RADIUS, fill=False, color='blue')
+    circle = Circle((SUN_TO_CENTER_DISTANCE, 0, 0), MILKY_WAY_RADIUS, fill=False, color='blue')
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
