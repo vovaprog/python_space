@@ -104,7 +104,7 @@ def show_stars(dt, range, count_show_with_legend, plot_name):
 
         counter += 1
 
-    ax.legend()
+    ax.legend(numpoints=1)
 
     ax.set_xlabel('ly')
     ax.set_ylabel('ly')

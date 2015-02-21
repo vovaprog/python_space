@@ -67,7 +67,7 @@ def show_local_group(dt):
 
         counter += 1
 
-    ax.legend()
+    ax.legend(numpoints=1)
 
     ax.set_xlabel('Mpc')
     ax.set_ylabel('Mpc')

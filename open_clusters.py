@@ -103,7 +103,7 @@ for r in data:
 
     counter += 1
 
-ax.legend()
+ax.legend(numpoints=1)
 
 ax.set_xlabel('ly')
 ax.set_ylabel('ly')

@@ -70,7 +70,7 @@ def show_globular_clusters(dt, messier):
 
             counter += 1
 
-        ax.legend()
+        ax.legend(numpoints=1)
     else:
         ax.scatter(dt['x'], dt['y'], dt['z'])
 
