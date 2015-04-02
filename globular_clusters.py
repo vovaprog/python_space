@@ -11,8 +11,8 @@ from spaceutils import show_maximized_plot, kiloparsec_to_lightyear
 #=====================================================================================================
 
 
-def convert_messier(ngc_string):
-    match = re.search('M\\s+([0-9]+)', ngc_string)
+def convert_messier(messier_string):
+    match = re.search('M\\s+([0-9]+)', messier_string)
     if match is not None:
         return int(match.group(1))
     else:
