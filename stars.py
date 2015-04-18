@@ -91,7 +91,7 @@ def show_stars(dt, range, count_show_with_legend, plot_name, scatter=False):
     ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
 
     if scatter:
-        ax.scatter(dt['x'], dt['y'], dt['z'])
+        ax.scatter(dt['x'], dt['y'], dt['z'], c=dt['vmag'], cmap=plt.cm.Spectral)
     else:
         counter = 0
 
