@@ -15,7 +15,7 @@ def maximize_plot_window():
         fig_manager.window.showMaximized()
     elif backend_name.find('tk') >= 0:
         maxsz = fig_manager.window.maxsize()
-        fig_manager.resize(maxsz[0] - 100, maxsz[1] - 100)
+        fig_manager.resize(maxsz[0] - 80, maxsz[1] - 80)
 
 
 def remove_plot_border():

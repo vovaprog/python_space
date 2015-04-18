@@ -75,7 +75,7 @@ SUN_TO_CENTER_DISTANCE = 27200.0
 #================================================================================================
 
 
-def show_stars(dt, range, count_show_with_legend, plot_name):
+def show_stars(dt, range, count_show_with_legend, plot_name, scatter=False):
     ax = plt.subplot(111, projection='3d')
 
     ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
@@ -83,28 +83,35 @@ def show_stars(dt, range, count_show_with_legend, plot_name):
     ax.plot([0, range], [0, 0], [0, 0], label='to galaxy center')
 
     arc = Arc((27200, 0, 0), SUN_TO_CENTER_DISTANCE * 2, SUN_TO_CENTER_DISTANCE * 2,
-              theta1=180 - np.degrees(range/SUN_TO_CENTER_DISTANCE), theta2=180 + np.degrees(range/SUN_TO_CENTER_DISTANCE))
+              theta1=180 - np.degrees(range / SUN_TO_CENTER_DISTANCE),
+              theta2=180 + np.degrees(range / SUN_TO_CENTER_DISTANCE))
     ax.add_patch(arc)
     art3d.pathpatch_2d_to_3d(arc, z=0)
 
-
     ax.plot([0, polaris["x"][0]], [0, polaris["y"][0]], [0, polaris["z"][0]], label='polaris')
 
-    counter = 0
+    if scatter:
+        ax.scatter(dt['x'], dt['y'], dt['z'])
+    else:
+        counter = 0
 
-    for r in dt:
-        marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
+        for r in dt:
+            marker = mlines.Line2D.filled_markers[counter % mlines.Line2D.filled_markers.__len__()]
 
-        if counter < count_show_with_legend:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], 'o',
-                    label=r["name"] + " " + str(r["vmag"]) + " " + str(int(r["dist"])) + "ly",
-                    markersize=5, marker=marker)
-        else:
-            ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=2)
+            if counter < count_show_with_legend:
+                ax.plot([r["x"]], [r["y"]], [r["z"]], 'o',
+                        label=r["name"] + " " + str(r["vmag"]) + " " + str(int(r["dist"])) + "ly",
+                        markersize=5, marker=marker)
+            else:
+                ax.plot([r["x"]], [r["y"]], [r["z"]], '.', markersize=2)
 
-        counter += 1
+            counter += 1
 
-    ax.legend(numpoints=1)
+        try:
+            ax.legend(numpoints=1, fontsize=10)  # call with fontsize fails on debian 7
+        except:
+            ax.legend(numpoints=1)
+
 
     ax.set_xlabel('ly')
     ax.set_ylabel('ly')
@@ -119,7 +126,11 @@ def show_stars(dt, range, count_show_with_legend, plot_name):
 
 
 dt_stars = data[0:30]
-show_stars(dt_stars, 1000, 30, "brightest stars")
+show_stars(dt_stars, 1000, 30, "30 brightest stars")
+
+
+dt_stars = data[0:1000]
+show_stars(dt_stars, 1000, 0, "1000 brightest stars", True)
 
 
 dt_ursa = data[data["con"] == "UMa"]
