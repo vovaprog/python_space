@@ -125,12 +125,12 @@ def show_stars(dt, range, count_show_with_legend, plot_name, scatter=False):
 #================================================================================================
 
 
-dt_stars = data[0:30]
-show_stars(dt_stars, 1000, 30, "30 brightest stars")
-
-
 dt_stars = data[0:1000]
 show_stars(dt_stars, 1000, 0, "1000 brightest stars", True)
+
+
+dt_stars = data[0:30]
+show_stars(dt_stars, 1000, 30, "30 brightest stars")
 
 
 dt_ursa = data[data["con"] == "UMa"]
@@ -141,8 +141,8 @@ dt_orion = data[data["con"] == "Ori"]
 show_stars(dt_orion, 600, 7, "orion")
 
 
-dt_filtered = data[data['dist'] < 8000]
-plt.hist(dt_filtered['dist'], bins=150)
+dt_filtered = data[data['dist'] < 6000]
+plt.hist(dt_filtered['dist'], bins=100)
 plt.xlabel('distance light years')
 plt.ylabel('number of stars')
 show_maximized_plot("star histogram")
