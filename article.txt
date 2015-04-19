@@ -219,20 +219,24 @@ z = dist * np.sin(glat)
 ===беззвездное небо если подняться над диском галактики
 
 ===гистограмма звезд
-(((histogram)))
+(((star_histogram.png)))
 
 ===самые далекие видимые звезды
 
 ===30 самых ярких звезд
-(((30_stars)))
+(((30_brightest_stars.png)))
 
-===deneb, бетельгейзе, rigel, alnilam
+===далекие яркие звезды: deneb, бетельгейзе, rigel, alnilam
 
 ===глазом мы видим только очень близкую часть космоса
 
 ===созвездия
-(((orion_constellation)))
-(((ursa_constallation)))
+(((ursa_major.png)))
+(((ursa_major_view.png)))
+
+(((orion.png)))
+(((orion_view.png)))
+Все яркие звезды созвездия находятся довольно далеко от Земли.
 
 
 
