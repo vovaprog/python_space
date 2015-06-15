@@ -54,7 +54,7 @@ def show_globular_clusters(dt, messier):
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
-    circle = Circle((0, 0, 0), 2000, fill=False, color='blue')
+    circle = Circle((0, 0, 0), 1000, fill=False, color='blue')
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
