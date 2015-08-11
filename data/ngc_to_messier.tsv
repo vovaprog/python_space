@@ -1,0 +1,152 @@
+#
+#   VizieR Astronomical Server vizier.u-strasbg.fr
+#    Date: 2014-12-24T15:45:34 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VIZ549ad328301e	
+#INFO	-out.max=unlimited	
+#INFO	queryParameters=16	
+#-oc.form=dec
+#-out.max=unlimited
+#-order=I
+#-out.src=VII/118/ngc2000,VII/118/names
+#-nav=cat:VII/1B&cat:VII/118&tab:{VII/118/ngc2000}&tab:{VII/118/names}&cat:VII/239A&key:source=ngc+2000&HTTPPRM:&&-ref=VIZ549ad328301e&-out.max=1000&-out.form=HTML Table&-oc.form=sexa&-c.eq=J2000&-c.r=  2&-c.u=arcmin&-c.geom=r&-order=I&-out=Name&-joincol=Name&-out=Type&-out=Object&Object=M*&-file=.&-meta.ucd=2&-meta=1&-meta.foot=1&-usenav=1&-bmark=POST&-out.src=VII/118/ngc2000,VII/118/names
+#-c.eq=J2000
+#-c.r=  2
+#-c.u=arcmin
+#-c.geom=r
+#-source=VII/118/ngc2000 VII/118/names
+#-order=I
+#-out=Name
+#-joincol=Name
+#-out=Type
+#-out=Object
+#Object=M*
+#
+
+#RESOURCE=join
+#Name: #Join
+#Title:  Join tables VII/118/ngc2000,VII/118/names
+#
+#Coosys	B2000:	eq_FK4 B2000
+#Table	VII_118_ngc2000_VII_118_names:
+#Name: VII/118/ngc2000,VII/118/names
+#Title:
+#Column	Name{1}	(A5)	NGC or IC designation (preceded by I)	[ucd=meta.id;meta.main]
+#Column	Type{1}	(A3)	Object classification (1)	[ucd=src.class]
+#Column	Object{2}	(a35)	Common name (including Messier numbers)	[ucd=meta.id;meta.main]
+Name|Type|Object
+ | |
+-----|---|-----------------------------------
+  205| Gx|M 110
+  221| Gx|M  32
+  224| Gx|M  31
+  581| OC|M 103
+  598| Gx|M  33
+  628| Gx|M  74
+  650| Pl|M  76
+  651| Pl|M  76
+ 1039| OC|M  34
+ 1068| Gx|M  77
+ 1904| Gb|M  79
+ 1912| OC|M  38
+ 1952| Nb|M   1
+ 1976| Nb|M  42
+ 1982| Nb|M  43
+ 1960| OC|M  36
+ 2068| Nb|M  78
+ 2099| OC|M  37
+ 2168| OC|M  35
+ 2287| OC|M  41
+ 2323| OC|M  50
+ 2422| OC|M  47
+ 2437| OC|M  46
+ 2447| OC|M  93
+ 2548| OC|M  48
+ 2632| OC|M  44
+ 2682| OC|M  67
+ 3031| Gx|M  81
+ 3034| Gx|M  82
+ 3351| Gx|M  95
+ 3368| Gx|M  96
+ 3379| Gx|M 105
+ 3556| Gx|M 108
+ 3587| Pl|M  97
+ 3623| Gx|M  65
+ 3627| Gx|M  66
+ 3992| Gx|M 109
+ 4192| Gx|M  98
+ 4254| Gx|M  99
+ 4258| Gx|M 106
+ 4303| Gx|M  61
+ 4321| Gx|M 100
+ 4374| Gx|M  84
+ 4382| Gx|M  85
+ 4406| Gx|M  86
+ 4472| Gx|M  49
+ 4486| Gx|M  87
+ 4501| Gx|M  88
+ 4548| Gx|M  91
+ 4552| Gx|M  89
+ 4569| Gx|M  90
+ 4579| Gx|M  58
+ 4590| Gb|M  68
+ 4594| Gx|M 104
+ 4621| Gx|M  59
+ 4649| Gx|M  60
+ 4736| Gx|M  94
+ 4826| Gx|M  64
+ 5024| Gb|M  53
+ 5055| Gx|M  63
+ 5194| Gx|M  51
+ 5195| Gx|M  51
+ 5236| Gx|M  83
+ 5272| Gb|M   3
+ 5457| Gx|M 101
+ 5904| Gb|M   5
+ 6093| Gb|M  80
+ 6121| Gb|M   4
+ 6171| Gb|M 107
+ 6205| Gb|M  13
+ 6218| Gb|M  12
+ 6254| Gb|M  10
+ 6266| Gb|M  62
+ 6273| Gb|M  19
+ 6341| Gb|M  92
+ 6333| Gb|M   9
+ 6402| Gb|M  14
+ 6405| OC|M   6
+ 6475| OC|M   7
+ 6494| OC|M  23
+ 6514|C+N|M  20
+ 6523| Nb|M   8
+ 6531| OC|M  21
+ 6611|C+N|M  16
+ 6613| OC|M  18
+ 6618|C+N|M  17
+ 6626| Gb|M  28
+ 6637| Gb|M  69
+I4725| OC|M  25
+ 6656| Gb|M  22
+ 6681| Gb|M  70
+ 6694| OC|M  26
+ 6705| OC|M  11
+ 6720| Pl|M  57
+ 6715| Gb|M  54
+ 6779| Gb|M  56
+ 6809| Gb|M  55
+ 6838| Gb|M  71
+ 6853| Pl|M  27
+ 6864| Gb|M  75
+ 6913| OC|M  29
+ 6981| Gb|M  72
+ 6994| OC|M  73
+ 7078| Gb|M  15
+ 7092| OC|M  39
+ 7089| Gb|M   2
+ 7099| Gb|M  30
+ 7654| OC|M  52
+

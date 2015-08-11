@@ -1,0 +1,129 @@
+#
+#   VizieR Astronomical Server vizier.u-strasbg.fr
+#    Date: 2015-01-22T20:03:57 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VIZ54c150621d81	
+#INFO	-out.max=unlimited	
+#INFO	queryParameters=14	
+#-oc.form=dec
+#-out.max=unlimited
+#-out.add=_r
+#-out.add=_RAJ,_DEJ
+#-sort=_r
+#-order=I
+#-out.src=J/A+AS/94/399/table4
+#-nav=cat:J/A+AS/94/399&tab:{J/A+AS/94/399/table4}&key:source=J/A+AS/94/399/table4&HTTPPRM:&&-ref=VIZ54c150621d81&-out.max=200&-out.form=HTML Table&-out.add=_r&-out.add=_RAJ,_DEJ&-sort=_r&-oc.form=sexa&-order=I&-out=Name&Name=NGC*&-out=Dist&-file=.&-meta.ucd=2&-meta=1&-meta.foot=1&-usenav=1&-bmark=POST&-out.src=J/A+AS/94/399/table4
+#-sort=_r
+#-source=J/A+AS/94/399/table4
+#-order=I
+#-out=Name
+#Name=NGC*
+#-out=Dist
+#
+
+#RESOURCE=yCat_40940399
+#Name: J/A+AS/94/399
+#Title: Absolute fluxes and distances of PN (Cahn+, 1992)
+#Table	J_A_AS_94_399_table4:
+#Name: J/A+AS/94/399/table4
+#Title: *Distances, optical depth, and radii of galactic planetary nebulae.
+#Column	Name	(a10)	PN name	[ucd=]
+#Column	Dist	(I5)	? Distance [NULL integer written as an empty string]	[ucd=]
+Name|Dist
+ |pc
+----------|-----
+NGC   40  | 1237
+NGC  246  |  470
+NGC  650-1|  739
+NGC 1360  |  348
+NGC 1501  | 1156
+NGC 1514  |  753
+NGC 1535  | 2283
+NGC 2022  | 2494
+NGC 2346  | 1356
+NGC 2371-2| 1539
+NGC 2392  | 1247
+NGC 2438  | 1203
+NGC 2440  | 1346
+NGC 2452  | 2811
+NGC 2610  | 2194
+NGC 2792  | 3021
+NGC 2818  | 1979
+NGC 2867  | 1839
+NGC 2899  | 1005
+NGC 3132  | 1251
+NGC 3195  | 1956
+NGC 3211  | 2873
+NGC 3242  | 1083
+NGC 3587  |  615
+NGC 3699  | 1605
+NGC 3918  | 1010
+NGC 4071  | 1581
+NGC 4361  |  879
+NGC 5189  |  540
+NGC 5307  | 3204
+NGC 5315  | 1242
+NGC 5873  | 5138
+NGC 5882  | 1677
+NGC 5979  | 2813
+NGC 6026  | 2375
+NGC 6058  | 3507
+NGC 6072  | 1007
+NGC 6153  | 1280
+NGC 6210  | 2025
+NGC 6302  |  525
+NGC 6309  | 2532
+NGC 6326  | 3478
+NGC 6337  | 1341
+NGC 6369  |  658
+NGC 6439  | 4118
+NGC 6445  | 1366
+NGC 6537  |  897
+NGC 6543  |  982
+NGC 6563  | 1631
+NGC 6565  | 4616
+NGC 6567  | 2367
+NGC 6572  |  705
+NGC 6578  | 2314
+NGC 6620  | 8751
+NGC 6629  | 1949
+NGC 6644  | 2496
+NGC 6720  |  872
+NGC 6741  | 2047
+NGC 6751  | 2560
+NGC 6765  | 2312
+NGC 6772  | 1254
+NGC 6778  | 3120
+NGC 6781  |  699
+NGC 6790  | 1544
+NGC 6803  | 2987
+NGC 6804  | 1709
+NGC 6807  | 5139
+NGC 6818  | 1869
+NGC 6826  | 1575
+NGC 6833  | 4763
+NGC 6842  | 1366
+NGC 6852  | 2710
+NGC 6853  |  262
+NGC 6879  | 7390
+NGC 6881  | 2473
+NGC 6884  | 2108
+NGC 6886  | 3097
+NGC 6891  | 3188
+NGC 6894  | 1653
+NGC 6905  | 1734
+NGC 7008  |  860
+NGC 7009  | 1201
+NGC 7026  | 1902
+NGC 7027  |  273
+NGC 7048  | 1598
+NGC 7094  | 1345
+NGC 7139  | 1383
+NGC 7293  |  157
+NGC 7354  | 1271
+NGC 7662  | 1163
+

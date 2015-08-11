@@ -1,0 +1,65 @@
+#
+#   VizieR Astronomical Server vizier.u-strasbg.fr
+#    Date: 2015-01-22T19:23:58 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VIZ54c14c1663aa	
+#INFO	-out.max=unlimited	
+#INFO	queryParameters=21	
+#-oc.form=dec
+#-out.max=unlimited
+#-out.add=_r
+#-out.add=_Glon,_Glat
+#-sort=_r
+#-order=I
+#-out.src=VII/118/ngc2000,VII/118/names
+#-nav=cat:VII/1B&cat:VII/118&tab:{VII/118/ngc2000}&tab:{VII/118/names}&cat:VII/239A&key:source=ngc&HTTPPRM:&&-ref=VIZ54c14c1663aa&-out.max=50&-out.form=HTML Table&-out.add=_r&-out.add=_Glon,_Glat&-sort=_r&-oc.form=sexa&-c.eq=J2000&-c.r=  2&-c.u=arcmin&-c.geom=r&-order=I&-out=Name&-joincol=Name&-out=Type&Type=~|Pl|Nb|C+N&-out=Object&Object=M*[0-9]*&-file=.&-meta.ucd=2&-meta=1&-meta.foot=1&-usenav=1&-bmark=POST&-out.src=VII/118/ngc2000,VII/118/names
+#-c.eq=J2000
+#-c.r=  2
+#-c.u=arcmin
+#-c.geom=r
+#-sort=_r
+#-source=VII/118/ngc2000 VII/118/names
+#-order=I
+#-out=Name
+#-joincol=Name
+#-out=Type
+#Type=~|Pl|Nb|C+N
+#-out=Object
+#Object=M*[0-9]*
+#
+
+#RESOURCE=join
+#Name: #Join
+#Title:  Join tables VII/118/ngc2000,VII/118/names
+#
+#Coosys	B2000:	eq_FK4 B2000
+#Coosys	G:	galactic
+#Table	VII_118_ngc2000_VII_118_names:
+#Name: VII/118/ngc2000,VII/118/names
+#Title:
+#Column	_Glon{1}	(F6.2)	Galactic longitude (computed by VizieR, not part of the original data)	[ucd=pos.galactic.lon]
+#Column	_Glat{1}	(F6.2)	Galactic latitude (computed by VizieR, not part of the original data)	[ucd=pos.galactic.lat]
+#Column	Name{1}	(A5)	NGC or IC designation (preceded by I)	[ucd=meta.id;meta.main]
+#Column	Type{1}	(A3)	Object classification (1)	[ucd=src.class]
+#Column	Object{2}	(a35)	Common name (including Messier numbers)	[ucd=meta.id;meta.main]
+_Glat|_Glon|Name|Type|Object
+deg|deg| | |
+------|------|-----|---|-----------------------------------
+-10.51|130.93|  650| Pl|M  76
+-10.50|130.93|  651| Pl|M  76
+ -5.79|184.55| 1952| Nb|M   1
+-19.38|209.08| 1976| Nb|M  42
+-19.26|208.93| 1982| Nb|M  43
+-14.34|205.35| 2068| Nb|M  78
++57.05|148.49| 3587| Pl|M  97
+ -0.24|006.99| 6514|C+N|M  20
+ -1.20|005.98| 6523| Nb|M   8
+ +0.80|016.97| 6611|C+N|M  16
+ -0.75|015.09| 6618|C+N|M  17
++13.98|063.18| 6720| Pl|M  57
+ -3.70|060.83| 6853| Pl|M  27
+
