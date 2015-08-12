@@ -40,10 +40,11 @@
 [genfromtxt](http://docs.scipy.org/doc/numpy/reference/generated/numpy.genfromtxt.html).
 Они очень похожи. Отличаются тем, что в genfromtxt добавлена обработка отсутствующих в колонках значений.
 Пример вызова функции loadtxt:
-    data = np.loadtxt('data/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
-                      dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
-                      converters={1: convert_messier})
-                      
+```python 
+data = np.loadtxt('data/globular_clusters.tsv', skiprows=49, delimiter='|', usecols=(1, 4, 5, 6, 7),
+                  dtype=[('messier', 'int'), ('dist', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
+                  converters={1: convert_messier})
+```
 * Параметр **skiprows** позволяет пропустить заданное количество строк. В файлах полученных через VizieR в начале идет заголовок.
 Смотрим сколько в нем строк и передаем в этом параметре.
 * Параметр **delimeter** - символ разделитель. В нашем случае - "|".
@@ -58,16 +59,16 @@
 это значение с данными из другого источника нам проще иметь просто целочисленное значение. Для этого нам нужно написать функцию,
 которая на вход получает строку - данные ячейки из файла, а возвращает число - индекс в каталоге Мессье.
 Например, эта функция может выглядеть так:
+```python
+import re
 
-    import re
-
-    def convert_messier(messier_string):
-        match = re.search('M\\s+([0-9]+)', messier_string)
-        if match is not None:
-            return int(match.group(1))
-        else:
-            return 0
-
+def convert_messier(messier_string):
+    match = re.search('M\\s+([0-9]+)', messier_string)
+    if match is not None:
+        return int(match.group(1))
+    else:
+        return 0
+```           
 [re](https://docs.python.org/2/library/re.html) - модуль Python для работы с
 [регулярными выражениями](https://ru.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B3%D1%83%D0%BB%D1%8F%D1%80%D0%BD%D1%8B%D0%B5_%D0%B2%D1%8B%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F).
 Если функция преобразования совсем короткая, то удобно использовать lambda функцию - написать код преобразования прямо в вызове функции loadtxt.
