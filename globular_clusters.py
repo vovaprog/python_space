@@ -44,7 +44,7 @@ MILKY_WAY_RADIUS = 110000 / 2
 def show_globular_clusters(dt, messier):
     ax = plt.subplot(111, projection='3d')
 
-    ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=10, label='sun')
+    ax.plot((0,), (0,), (0,), 'o', color='orange', markersize=7, label='sun')
 
     circle = Circle((SUN_TO_CENTER_DISTANCE, 0, 0), SUN_TO_CENTER_DISTANCE, fill=False, color='blue')
     ax.add_patch(circle)
@@ -54,10 +54,9 @@ def show_globular_clusters(dt, messier):
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
 
-    circle = Circle((0, 0, 0), 1000, fill=False, color='blue')
+    circle = Circle((0, 0, 0), 1000, fill=False, color='red')
     ax.add_patch(circle)
     art3d.pathpatch_2d_to_3d(circle, z=0)
-
 
     if messier:
         counter = 0
@@ -69,8 +68,12 @@ def show_globular_clusters(dt, messier):
                 ax.plot([r["x"]], [r["y"]], [r["z"]], 'o', label="M" + str(r["messier"]) + "   " + str(int(r["dist"])), markersize=5, marker=marker)
 
             counter += 1
-
-        ax.legend(numpoints=1)
+        
+        try:
+            ax.legend(numpoints=1, fontsize=10)  # call with fontsize fails on debian 7
+        except:
+            ax.legend(numpoints=1)
+                
     else:
         ax.scatter(dt['x'], dt['y'], dt['z'])
 
